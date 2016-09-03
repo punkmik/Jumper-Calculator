@@ -23,22 +23,10 @@
       <file leaf-file-name="jumpercalculator.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jumpercalculator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="330">
+              <caret line="22" column="14" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
               <folding>
                 <element signature="e#3540#3554#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="evernoteintegration.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/evernoteintegration.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="45" column="26" selection-start-line="45" selection-start-column="26" selection-end-line="45" selection-end-column="26" />
-              <folding>
-                <element signature="e#1#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -409,8 +397,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jumpercalculator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="330">
+          <caret line="22" column="14" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
           <folding>
             <element signature="e#3540#3554#0" expanded="true" />
           </folding>
