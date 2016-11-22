@@ -1,163 +1,165 @@
 # knitting gauge from swatching
 # future - could make the variables be functions that calculate the stitches and rows per inch from a 4 inch input
 
-stitchesperinch = float( raw_input("Please enter your number of stitches per 1 inch: ") )
-rowsperinch = float( raw_input("Please enter your number of rows per 1 inch: ") )
 
 
-# personal measurements
-
-neckwidthinches = float( raw_input("Please enter your desired neck width: ") )
-
-chestcircumferenceinches = float( raw_input("Please enter your desired chest circumference: ") )
-
-backtofrontneckdropinches = float( raw_input("Please enter your desired neck depth: ") )
-
-sleevecircumferenceinches = float( raw_input("Please enter your desired sleeve circumference: ") )
-
-shouldertounderaminches = float( raw_input("Please enter your desired yoke depth: ") )
-
-sleevelenghtinches = float( raw_input("Please enter your desired sleeve length: ") )
-
+### FUNCTIONS ###
 
 # calculations
 # cast on count: [back neck width x sts per inch] + [~30% of that number for sleeve top x 2] + [1 front neck st x 2] = CO
-castoncount = ( neckwidthinches * stitchesperinch ) + ( ( neckwidthinches * stitchesperinch * 0.3 ) * 2 ) + 2
+#castoncountold = ( neckwidthinches * stitchesperinch ) + ( ( neckwidthinches * stitchesperinch * 0.3 ) * 2 ) + 2
+
+def calcCastoncount( theneckwidthinches , thestitchesperinch ) :
+	theCalculation = (theneckwidthinches * thestitchesperinch) + ((theneckwidthinches * thestitchesperinch * 0.3) * 2) + 2
+	return theCalculation;
 
 
 
 #Under arm cast on count - after separating sleeves
 #desired underarm width (rule of thumb is ~8% of body circumference) x sts per inch = underarm CO count
+#underarmcastoncountold = ( chestcircumferenceinches * 0.08 ) * stitchesperinch
 
-underarmcastoncount = ( chestcircumferenceinches * 0.08 ) * stitchesperinch
+def calcUnderarmcastoncount( thechestcircumferenceinches, thestitchesperinch ) :
+	theCalculation = ( thechestcircumferenceinches * 0.08 ) * thestitchesperinch
+	return theCalculation;
 
 
 
 # neck depth: desired drop from back to front neck edge x rows per inch = neck depth
-neckdepth = backtofrontneckdropinches * rowsperinch
+#neckdepthold = backtofrontneckdropinches * rowsperinch
 
+def calcNeckdepth ( thebacktofrontneckdropinches , therowsperinch ) :
+	theCalculation = ( thebacktofrontneckdropinches * therowsperinch )
+	return theCalculation;
 
 
 # front and back stitch count at underarm/chest:
 #  1/2 chest circumference x sts per inch = front or back st count***
 #NOTE: subtract underarmcastoncount from this number to get the number you are increasing to during the raglan shaping.
-frontandbackstitchcountchest = ( chestcircumferenceinches / 2 ) * stitchesperinch - underarmcastoncount
+#frontandbackstitchcountchestold = ( chestcircumferenceinches / 2 ) * stitchesperinch - underarmcastoncount
 
+def calcFrontandbackstitchcountchest ( thechestcircumferenceinches, thestitchesperinch, theunderarmcastoncount  ):
+	theCalculation = ( thechestcircumferenceinches / 2 ) * thestitchesperinch - theunderarmcastoncount
+	return theCalculation;
 
 
 #sleeves stitch count:
 #desired sleeve circumference x sts per inch = sleeve st count***
 #NOTE: subtract underarmcastoncount from this number to get the number you are increasing to during the raglan shaping
+#sleevestitchcountold = sleevecircumferenceinches * stitchesperinch - underarmcastoncount
 
-sleevestitchcount = sleevecircumferenceinches * stitchesperinch - underarmcastoncount
+def calcSleevestitchcount ( thesleevecircumferenceinches , thestitchesperinch ,  theunderarmcastoncount) :
+	theCalculation = thesleevecircumferenceinches * thestitchesperinch - theunderarmcastoncount
+	return theCalculation;
 
 
 #Yoke depth
 #desired distance from shoulder to underarm x rows/rounds per inch = yoke depth
+#yokedepthold = shouldertounderaminches * rowsperinch
 
-yokedepth = shouldertounderaminches * rowsperinch
+def calcYokedepth ( theshouldertounderaminches , therowsperinch ) :
+	theCalculation = theshouldertounderaminches * therowsperinch
+	return theCalculation;
 
 
 #desired sleeve lenght: sleeve length x rows per inch
-sleevelength = sleevelenghtinches * rowsperinch
+#sleevelengthold = sleevelenghtinches * rowsperinch
 
-
-#improvPattern = "You need to cast on", castoncount, "stitches." + "Your under arm cast on count is", underarmcastoncount, "stitches." + "You need to knit", neckdepth, "rows for your desired neck depth." + "You need to increase to", frontandbackstitchcountchest, "stitches for front and back." + "You need to increase to", sleevestitchcount, "sleeve stitches." + "You need to knit", yokedepth, "rows for your desired yoke depth." + "You need to knit", sleevelength, "rows for your desired sleeve length.")
-
-#print improvPattern
-
-note_text = "You need to cast on %s stitches." % castoncount
-note_text += "\nYour under arm cast on count is %s stitches." % underarmcastoncount
-note_text += "\nYou need to knit %s rows for your desired neck depth." % neckdepth
-note_text += "\nYou need to increase to %s stitches for front and back." % frontandbackstitchcountchest
-note_text += "\nYou need to increase to %s sleeve stitches." % sleevestitchcount
-note_text += "\nYou need to knit %s rows for your desired yoke depth." % yokedepth
-note_text += "\nYou need to knit %s rows for your desired sleeve length." % sleevelength
-
-print note_text
-
-import hashlib
-import binascii
-import evernote.edam.userstore.constants as UserStoreConstants
-import evernote.edam.type.ttypes as Types
-
-from evernote.api.client import EvernoteClient
-#authentication with sandbox
-
-
-# Real applications authenticate with Evernote using OAuth, but for the
-# purpose of exploring the API, you can get a developer token that allows
-# you to access your own Evernote account. To get a developer token, visit
-# https://sandbox.evernote.com/api/DeveloperToken.action
-auth_token = "S=s1:U=92df9:E=15e48a870d7:C=156f0f74480:P=1cd:A=en-devtoken:V=2:H=4199de2941e353c9fd1f45b9aecd41cc"
-
-if auth_token == "your developer token":
-    print "Please fill in your developer token"
-    print "To get a developer token, visit " \
-        "https://sandbox.evernote.com/api/DeveloperToken.action"
-    exit(1)
-
-dev_token = "S=s1:U=92df9:E=15e48a870d7:C=156f0f74480:P=1cd:A=en-devtoken:V=2:H=4199de2941e353c9fd1f45b9aecd41cc"
-client = EvernoteClient(token=dev_token)
-userStore = client.get_user_store()
-user = userStore.getUser()
-print user.username
+def calcSleevelenght ( thesleevelenghtinches , therowsperinch ) :
+	theCalculation = thesleevelenghtinches * therowsperinch
+	return theCalculation;
 
 
 
-#create a new note
+class PatternInputClass :
+	stitchesperinch = 0
+	rowsperinch = 0
+	neckwidthinches = 0
+	chestcircumferenceinches = 0
+	backtofrontneckdropinches = 0
+	sleevecircumferenceinches = 0
+	shouldertounderaminches = 0
+	sleevelenghtinches = 0
 
-noteStore = client.get_note_store()
-note = Types.Note()
-note.title = "Improv Sweater pattern"
-note.content = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">'
-note.content += '<en-note>'
-note.content += note_text
-note.content += '</en-note>'
-note = noteStore.createNote(note)
 
-def makeNote(authToken, noteStore, noteTitle, noteBody, resources=[], parentNotebook=None):
-	"""
-	Create a Note instance with title and body
-	Send Note object to user's account
-	"""
+###   USER INPUT ###
+def getPatternInputFromUser() :
 
-	ourNote = Types.Note()
-	ourNote.title = noteTitle
+	patternInput = PatternInputClass()
 
-	## Build body of note
+	patternInput.stitchesperinch = float( raw_input("Please enter your number of stitches per 1 inch: ") )
+	patternInput.rowsperinch = float( raw_input("Please enter your number of rows per 1 inch: ") )
 
-	nBody = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-	nBody += "<!DOCTYPE en-note SYSTEM \"http://xml.evernote.com/pub/enml2.dtd\">"
-	nBody += "<en-note>%s" % noteBody
-	if resources:
-		### Add Resource objects to note body
-		nBody += "<br />" * 2
-		ourNote.resources = resources
-		for resource in resources:
-			hexhash = binascii.hexlify(resource.data.bodyHash)
-			nBody += "Attachment with hash %s: <br /><en-media type=\"%s\" hash=\"%s\" /><br />" % \
-				(hexhash, resource.mime, hexhash)
-	nBody += "</en-note>"
 
-	ourNote.content = nBody
+	# personal measurements
 
-	## parentNotebook is optional; if omitted, default notebook is used
-	if parentNotebook and hasattr(parentNotebook, 'guid'):
-		ourNote.notebookGuid = parentNotebook.guid
+	patternInput.neckwidthinches = float( raw_input("Please enter your desired neck width: ") )
 
-	## Attempt to create note in Evernote account
-	try:
-		note = noteStore.createNote(authToken, ourNote)
-	except Errors.EDAMUserException, edue:
-		## Something was wrong with the note data
-		## See EDAMErrorCode enumeration for error code explanation
-		## http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
-		print "EDAMUserException:", edue
-		return None
-	except Errors.EDAMNotFoundException, ednfe:
-		## Parent Notebook GUID doesn't correspond to an actual notebook
-		print "EDAMNotFoundException: Invalid parent notebook GUID"
-		return None
-	## Return created note object
-	return note
+	patternInput.chestcircumferenceinches = float( raw_input("Please enter your desired chest circumference: ") )
+
+	patternInput.backtofrontneckdropinches = float( raw_input("Please enter your desired neck depth: ") )
+
+	patternInput.sleevecircumferenceinches = float( raw_input("Please enter your desired sleeve circumference: ") )
+
+	patternInput.shouldertounderaminches = float( raw_input("Please enter your desired yoke depth: ") )
+
+	patternInput.sleevelenghtinches = float( raw_input("Please enter your desired sleeve length: ") )
+
+	return patternInput;
+
+
+class Pattern :
+	castoncount = 0
+	underarmcastoncount = 0
+	neckdepth = 0
+	frontandbackstitchcountchest = 0
+	sleevestitchcount = 0
+	yokedepth = 0
+	sleevelength = 0
+
+### MAIN PART ###
+def calcPattern(patternInput) :
+
+	pattern = Pattern()
+
+	pattern.castoncount = calcCastoncount(patternInput.neckwidthinches, patternInput.stitchesperinch)
+
+	pattern.underarmcastoncount = calcUnderarmcastoncount(patternInput.chestcircumferenceinches, patternInput.stitchesperinch)
+
+	pattern.neckdepth = calcNeckdepth(patternInput.backtofrontneckdropinches, patternInput.rowsperinch)
+
+	pattern.frontandbackstitchcountchest = calcFrontandbackstitchcountchest (patternInput.chestcircumferenceinches, patternInput.stitchesperinch, pattern.underarmcastoncount)
+
+	pattern.sleevestitchcount = calcSleevestitchcount(patternInput.sleevecircumferenceinches, patternInput.stitchesperinch, pattern.underarmcastoncount)
+
+	pattern.yokedepth = calcYokedepth(patternInput.shouldertounderaminches, patternInput.rowsperinch)
+
+	pattern.sleevelength = calcSleevelenght(patternInput.sleevelenghtinches, patternInput.rowsperinch)
+
+	return pattern;
+
+
+### OUTPUT ###
+def printDebug( pattern ) :
+
+	note_text = "You need to cast on %s stitches." % pattern.castoncount
+	note_text += "\nYour under arm cast on count is %s stitches." % pattern.underarmcastoncount
+	note_text += "\nYou need to knit %s rows for your desired neck depth." % pattern.neckdepth
+	note_text += "\nYou need to increase to %s stitches for front and back." % pattern.frontandbackstitchcountchest
+	note_text += "\nYou need to increase to %s sleeve stitches." % pattern.sleevestitchcount
+	note_text += "\nYou need to knit %s rows for your desired yoke depth." % pattern.yokedepth
+	note_text += "\nYou need to knit %s rows for your desired sleeve length." % pattern.sleevelength
+
+	print note_text
+
+	return;
+
+
+
+def main() :
+	patternInput = getPatternInputFromUser()
+	pattern = calcPattern( patternInput )
+	printDebug( pattern )
+
+
+main()
