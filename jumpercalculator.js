@@ -83,7 +83,7 @@ function calcSleevelenght ( thesleevelenghtinches , therowsperinch ) {
 
 
 
-var "PatternInputClass" = {
+var PatternInputClass = {
 	stitchesperinch: 0 ,
 	rowsperinch: 0 ,
 	neckwidthinches: 0 ,
@@ -91,53 +91,57 @@ var "PatternInputClass" = {
 	backtofrontneckdropinches: 0 ,
  	sleevecircumferenceinches: 0 ,
 	shouldertounderaminches: 0 ,
-	sleevelenghtinches: 0 ,
+	sleevelenghtinches: 0
 
 	};
 
 
 //  USER INPUT
-function getPatternInputFromUser() {
+function getPatternInputFromUser( form ) {
 
-	var patternInput = "PatternInputClass()"
+	var patternInput = {};
 
-	patternInput.stitchesperinch = float( raw_input("Please enter your number of stitches per 1 inch: ") )
-	patternInput.rowsperinch = float( raw_input("Please enter your number of rows per 1 inch: ") )
-
+	patternInput.stitchesperinch = form.stitchesperinch.value;
+	patternInput.rowsperinch = form.rowsperinch.value;
 
 	// personal measurements
 
-	patternInput.neckwidthinches = float( raw_input("Please enter your desired neck width: ") )
+	patternInput.neckwidthinches = form.neckwidthinches.value;
 
-	patternInput.chestcircumferenceinches = float( raw_input("Please enter your desired chest circumference: ") )
+	patternInput.chestcircumferenceinches = form.chestcircumferenceinches.value;
 
-	patternInput.backtofrontneckdropinches = float( raw_input("Please enter your desired neck depth: ") )
+	patternInput.backtofrontneckdropinches = form.backtofrontneckdropinches.value;
 
-	patternInput.sleevecircumferenceinches = float( raw_input("Please enter your desired sleeve circumference: ") )
+	patternInput.sleevecircumferenceinches = form.sleevecircumferenceinches.value;
 
-	patternInput.shouldertounderaminches = float( raw_input("Please enter your desired yoke depth: ") )
+	patternInput.shouldertounderaminches = form.shouldertounderaminches.value;
 
-	patternInput.sleevelenghtinches = float( raw_input("Please enter your desired sleeve length: ") )
+	patternInput.sleevelenghtinches = form.sleevelenghtinches.value;
 
 	return patternInput;
 
+
+
 	}
+;
 
 
 
-class Pattern :
-	castoncount = 0
-	underarmcastoncount = 0
-	neckdepth = 0
-	frontandbackstitchcountchest = 0
-	sleevestitchcount = 0
-	yokedepth = 0
-	sleevelength = 0
+var Pattern  = {
+	castoncount: 0 ,
+	underarmcastoncount: 0 ,
+	neckdepth: 0 ,
+	frontandbackstitchcountchest: 0 ,
+	sleevestitchcount: 0 ,
+	yokedepth: 0 ,
+	sleevelength: 0
+
+	} ;
 
 // MAIN PART
-def calcPattern(patternInput) :
+function calcPattern(patternInput)  {
 
-	pattern = Pattern()
+	pattern = Pattern
 
 	pattern.castoncount = calcCastoncount(patternInput.neckwidthinches, patternInput.stitchesperinch)
 
@@ -155,29 +159,35 @@ def calcPattern(patternInput) :
 
 	return pattern;
 
+	}
+
 
 // OUTPUT
-def printDebug( pattern ) :
+function printDebug( pattern )  {
 
-	note_text = "You need to cast on %s stitches." % pattern.castoncount
-	note_text += "\nYour under arm cast on count is %s stitches." % pattern.underarmcastoncount
-	note_text += "\nYou need to knit %s rows for your desired neck depth." % pattern.neckdepth
-	note_text += "\nYou need to increase to %s stitches for front and back." % pattern.frontandbackstitchcountchest
-	note_text += "\nYou need to increase to %s sleeve stitches." % pattern.sleevestitchcount
-	note_text += "\nYou need to knit %s rows for your desired yoke depth." % pattern.yokedepth
-	note_text += "\nYou need to knit %s rows for your desired sleeve length." % pattern.sleevelength
-
-	print note_text
-
-	return;
+	var note_text = "<br/>You need to cast on " + pattern.castoncount + " stitches.";
+	note_text = note_text + "<br/>Your under arm cast on count is " + pattern.underarmcastoncount + " stitches.";
+	note_text = note_text + "<br/>You need to increase to " + pattern.frontandbackstitchcountchest + " stitches for front and back.";
+	note_text = note_text + "<br/>You need to increase to " + pattern.sleevestitchcount + " sleeve stitches.";
+	note_text = note_text + "<br/>You need to knit " + pattern.yokedepth + " rows for your desired yoke depth.";
+	note_text = note_text + "<br/>You need to knit " + pattern.sleevelength +  " rows for your desired sleeve length.";
 
 
+    document.getElementById( "output" ).innerHTML = note_text;
+//    document.getElementById( "gauge" ).innerHTML = note_text;
 
-def main() :
-	patternInput = getPatternInputFromUser()
+}
+
+
+
+function calculatePatternFromHtmlForm( form )  {
+	console.trace("hello")
+	patternInput = getPatternInputFromUser( form )
 	pattern = calcPattern( patternInput )
 	printDebug( pattern )
 
+    return false;
+}
 
-main()
+
 
