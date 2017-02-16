@@ -1,0 +1,49 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="jumpercalculator.css">
+
+  <title>Kims Jumper Calculator</title>
+  <meta name="description" content="Kims Jumper Calculator">
+
+</head>
+
+<body>
+  <script src="jumpercalculator.js"></script>
+  <h1>Kims Jumper Calculator</h1>
+
+<form id="gauge" onsubmit="return calculatePatternFromHtmlForm(this)">
+  Stitches: <input type="number" name="stitchesperinch" value=""/>
+    <br/>
+
+  Rows: <input type="number" name="rowsperinch" value=""/>
+    <br/>
+
+    Neck Width: <input type="number" name="neckwidthinches" value=""/>
+    <br>
+
+  Chest circumference: <input type="number" name="chestcircumferenceinches" value=""/>
+    <br>
+
+  Neckline depth: <input type="number" name="backtofrontneckdropinches" value=""/>
+    <br>
+
+   Sleeve circumference (top): <input type="number" name="sleevecircumferenceinches" value=""/>
+    <br>
+
+   Shoulder to underarm: <input type="number" name="shouldertounderaminches" value=""/>
+    <br>
+
+  Sleeve length: <input type="number" name="sleevelenghtinches" value=""/>
+    <br>
+
+    <button type="submit">Calculate!</button>
+</form>
+
+<div id="output">Your calculation will be shown here</div>
+
+</body>
+</html>
+
